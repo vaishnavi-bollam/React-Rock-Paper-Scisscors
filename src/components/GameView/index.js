@@ -40,7 +40,7 @@ class GameView extends Component {
 
   resultView = id => {
     const {resultView} = this.state
-    this.setState({resultView: true, activeId: id})
+    this.setState({resultView: true, activeId: id, gameView: false})
     console.log(id)
   }
 

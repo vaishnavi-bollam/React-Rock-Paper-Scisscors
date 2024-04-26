@@ -1,3 +1,5 @@
+import {Images} from '../StyledComponents/index'
+
 const choicesList = [
   {
     id: 'ROCK',
@@ -19,9 +21,14 @@ const choicesList = [
 const ResultsView = props => {
   const {activeId} = props
   const selectedChoice = choicesList.find(choice => choice.id === activeId)
+  const randomIndex = Math.floor(Math.random() * choicesList.length)
+  const randomChoice = choicesList[randomIndex]
   return (
     <div>
-      {selectedChoice && <img src={selectedChoice.imageUrl} alt={activeId} />}
+      {selectedChoice && (
+        <Images src={selectedChoice.imageUrl} alt={activeId} />
+      )}
+      <Images src={randomChoice.imageUrl} alt={randomChoice.id} />
     </div>
   )
 }
