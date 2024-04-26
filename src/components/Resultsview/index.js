@@ -24,7 +24,6 @@ class ResultsView extends Component {
   state = {
     winningState: '',
     random: '',
-    score: 0,
   }
 
   componentDidMount() {
@@ -32,7 +31,7 @@ class ResultsView extends Component {
   }
 
   updateWinningState = () => {
-    const {activeId} = this.props
+    const {activeId, updateScore, activeScore} = this.props
     console.log(activeId, 'selected')
     const randomIndex = Math.floor(Math.random() * choicesList.length)
     const randomChoice = choicesList[randomIndex]
@@ -44,9 +43,8 @@ class ResultsView extends Component {
         (playerChoice === 'SCISSORS' && opponentChoice === 'PAPER') ||
         (playerChoice === 'PAPER' && opponentChoice === 'ROCK')
       ) {
-        this.setState(prevState => ({
-          score: prevState.score + 1,
-        }))
+        console.log(activeScore)
+        updateScore(activeScore + 1)
 
         return 'YOU WON'
       }
@@ -56,9 +54,8 @@ class ResultsView extends Component {
         }))
         return 'IT IS DRAW'
       }
-      this.setState(prevState => ({
-        score: prevState.score - 1,
-      }))
+
+      updateScore(activeScore - 1)
       return 'YOU LOSE'
     }
 
@@ -69,9 +66,8 @@ class ResultsView extends Component {
   onPlayButtonClicked = () => {
     console.log('playbuttonclicked')
     const {playButton} = this.props
-    const {score} = this.state
-    console.log(score)
-    playButton(score)
+
+    playButton()
   }
 
   render() {

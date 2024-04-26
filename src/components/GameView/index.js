@@ -44,16 +44,23 @@ class GameView extends Component {
   }
 
   resultView = id => {
-    this.setState({resultView: true, activeId: id, gameView: false})
+    this.setState({
+      resultView: true,
+      activeId: id,
+      gameView: false,
+    })
     // console.log(id)
   }
 
-  playButton = score => {
+  playButton = () => {
     this.setState({
       gameView: true,
       resultView: false,
-      activeScore: score,
     })
+  }
+
+  updateScore = score => {
+    this.setState({activeScore: score})
   }
 
   render() {
@@ -79,13 +86,19 @@ class GameView extends Component {
                 eachChoice={eachChoice}
                 key={eachChoice.id}
                 resultView={this.resultView}
+                updateScore={this.updateScore}
               />
             ))}
           </UnOrderedList>
         )}
 
         {resultView && (
-          <ResultsView activeId={activeId} playButton={this.playButton} />
+          <ResultsView
+            activeId={activeId}
+            playButton={this.playButton}
+            updateScore={this.updateScore}
+            activeScore={activeScore}
+          />
         )}
 
         <ButtonCont>
