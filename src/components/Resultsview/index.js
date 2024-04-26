@@ -1,3 +1,5 @@
+import {Component} from 'react'
+
 import {Images} from '../StyledComponents/index'
 
 const choicesList = [
@@ -18,18 +20,81 @@ const choicesList = [
   },
 ]
 
-const ResultsView = props => {
-  const {activeId} = props
-  const selectedChoice = choicesList.find(choice => choice.id === activeId)
-  const randomIndex = Math.floor(Math.random() * choicesList.length)
-  const randomChoice = choicesList[randomIndex]
-  return (
-    <div>
-      {selectedChoice && (
-        <Images src={selectedChoice.imageUrl} alt={activeId} />
-      )}
-      <Images src={randomChoice.imageUrl} alt={randomChoice.id} />
-    </div>
-  )
+class ResultsView extends Component {
+  state = {
+    winningState: '',
+    random: '',
+    score: 0,
+  }
+
+  componentDidMount() {
+    this.updateWinningState()
+  }
+
+  updateWinningState = () => {
+    const {activeId} = this.props
+    console.log(activeId, 'selected')
+    const randomIndex = Math.floor(Math.random() * choicesList.length)
+    const randomChoice = choicesList[randomIndex]
+    console.log(randomChoice.id, 'random')
+    this.setState({random: randomChoice})
+    const getResult = (playerChoice, opponentChoice) => {
+      if (
+        (playerChoice === 'ROCK' && opponentChoice === 'SCISSORS') ||
+        (playerChoice === 'SCISSORS' && opponentChoice === 'PAPER') ||
+        (playerChoice === 'PAPER' && opponentChoice === 'ROCK')
+      ) {
+        this.setState(prevState => ({
+          score: prevState.score + 1,
+        }))
+
+        return 'YOU WON'
+      }
+      if (playerChoice === opponentChoice) {
+        this.setState(prevState => ({
+          score: prevState.score,
+        }))
+        return 'IT IS DRAW'
+      }
+      this.setState(prevState => ({
+        score: prevState.score - 1,
+      }))
+      return 'YOU LOSE'
+    }
+
+    const result = getResult(activeId, randomChoice.id)
+    this.setState({winningState: result})
+  }
+
+  onPlayButtonClicked = () => {
+    console.log('playbuttonclicked')
+    const {playButton} = this.props
+    const {score} = this.state
+    console.log(score)
+    playButton(score)
+  }
+
+  render() {
+    const {activeId} = this.props
+    const {winningState, random} = this.state
+
+    const selectedChoice = choicesList.find(choice => choice.id === activeId)
+
+    return (
+      <div>
+        <h1>You</h1>
+        {selectedChoice && (
+          <Images src={selectedChoice.imageUrl} alt="your choice" />
+        )}
+        <h1>Opponent</h1>
+        <Images src={random.imageUrl} alt="opponent choice" />
+        <p>{winningState}</p>
+        <button type="button" onClick={this.onPlayButtonClicked}>
+          PLAY AGAIN
+        </button>
+      </div>
+    )
+  }
 }
+
 export default ResultsView

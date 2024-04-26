@@ -15,16 +15,21 @@ import ResultsView from '../Resultsview'
 const choicesList = [
   {
     id: 'ROCK',
+    altValue: 'rockButton',
     imageUrl:
       'https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rock-image.png',
   },
   {
     id: 'SCISSORS',
+    altValue: 'scissorsButton',
+
     imageUrl:
       'https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/scissor-image.png',
   },
   {
     id: 'PAPER',
+    altValue: 'paperButton',
+
     imageUrl:
       'https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/paper-image.png',
   },
@@ -34,31 +39,36 @@ class GameView extends Component {
   state = {
     gameView: true,
     resultView: false,
-    clickedImage: '',
     activeId: '',
+    activeScore: 0,
   }
 
   resultView = id => {
-    const {resultView} = this.state
     this.setState({resultView: true, activeId: id, gameView: false})
-    console.log(id)
+    // console.log(id)
+  }
+
+  playButton = score => {
+    this.setState({
+      gameView: true,
+      resultView: false,
+      activeScore: score,
+    })
   }
 
   render() {
-    const {gameView, clickedImage, resultView, activeId} = this.state
+    const {gameView, resultView, activeId, activeScore} = this.state
 
     return (
       <MainContainer>
         <div>
           <Container>
             <div>
-              <Heading>ROCK</Heading>
-              <Heading>PAPER</Heading>
-              <Heading>SCISCCORS</Heading>
+              <Heading>Rock Paper Scissors</Heading>
             </div>
             <div>
-              <h1>Score</h1>
-              <p>1</p>
+              <p>Score</p>
+              <p>{activeScore}</p>
             </div>
           </Container>
         </div>
@@ -74,21 +84,35 @@ class GameView extends Component {
           </UnOrderedList>
         )}
 
-        {resultView && <ResultsView activeId={activeId} />}
+        {resultView && (
+          <ResultsView activeId={activeId} playButton={this.playButton} />
+        )}
 
         <ButtonCont>
           <Popup
-            trigger={<Button aria-label="Open Image">RULES</Button>}
+            trigger={
+              <Button type="button" aria-label="Open Image" alt="rules">
+                Rules
+              </Button>
+            }
             modal
             closeOnDocumentClick
           >
             {close => (
               <div className="modal">
-                <button className="close" onClick={close} aria-label="Close">
+                <button
+                  className="close"
+                  onClick={close}
+                  aria-label="Close"
+                  type="button"
+                >
                   <RiCloseLine />
                 </button>
                 <div className="modal-content">
-                  <img src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rules-image.png" />
+                  <img
+                    src="https://assets.ccbp.in/frontend/react-js/rock-paper-scissor/rules-image.png"
+                    alt="modal"
+                  />
                 </div>
               </div>
             )}

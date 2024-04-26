@@ -12,8 +12,14 @@ const Choices = props => {
 
   return (
     <ListItem>
-      <button label="images" onClick={onImageClicked} className="image-button">
-        <Images src={eachChoice.imageUrl} />
+      <button
+        type="button"
+        label="images"
+        onClick={onImageClicked}
+        className="image-button"
+        data-testid={eachChoice.altValue}
+      >
+        <Images src={eachChoice.imageUrl} alt={eachChoice.id} />
       </button>
     </ListItem>
   )

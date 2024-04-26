@@ -1,5 +1,4 @@
 import GameView from './components/GameView'
-import PopupImageExample from './components/Reactmodal'
 import './App.css'
 
 // const choicesList = [

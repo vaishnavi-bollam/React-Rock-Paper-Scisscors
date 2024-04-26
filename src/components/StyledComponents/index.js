@@ -14,6 +14,7 @@ export const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   padding: 30px;
+  font-family: 'Roboto';
 `
 export const Images = styled.img`
   height: 200px;
